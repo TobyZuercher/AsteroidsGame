@@ -11,7 +11,7 @@ public void draw()
 {
   background(0);
   if(w == true) sam.accelerate(0.1);
-  if(s == true) sam.accelerate(-0.1);
+  //if(s == true) sam.accelerate(-0.1);
   if(a == true) sam.turn(-5);
   if(d == true) sam.turn(5);
   
@@ -19,7 +19,7 @@ public void draw()
     double trueDir;
     trueDir = sam.getDirection();
     sam.setDirection(sam.getAngleofDirection());
-    sam.accelerate(-(sam.getSpeed())/20);
+    sam.accelerate(-(sam.getSpeed())/30);
     sam.setDirection(trueDir);
   }
   

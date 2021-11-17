@@ -25,7 +25,17 @@ class Spaceship extends Floater
     public void setX(double d) { myCenterX = d; }
     public double getY() { return myCenterY; }
     public void setY(double d) { myCenterY = d; }
-    public double getSpeed() { return ((cos(radians((float)myPointDirection)) * myXspeed) + (sin(radians((float)myPointDirection)) * myYspeed)); }
+    public double getSpeed() { 
+    if(myXspeed > 0 && myYspeed > 0) 
+      return sqrt( pow((float)(cos(radians((float)myPointDirection)) * myXspeed), 2) + pow((float)(sin(radians((float)myPointDirection)) * myYspeed), 2) );
+    if(myXspeed < 0 && myYspeed < 0) 
+      return -sqrt( pow((float)(cos(radians((float)myPointDirection)) * myXspeed), 2) + pow((float)(sin(radians((float)myPointDirection)) * myYspeed), 2) );
+    if(myXspeed < 0 && myYspeed > 0) 
+      return -sqrt( pow((float)(cos(radians((float)myPointDirection)) * myXspeed), 2) + pow((float)(sin(radians((float)myPointDirection)) * myYspeed), 2) );
+    if(myXspeed > 0 && myYspeed < 0) 
+      return sqrt( pow((float)(cos(radians((float)myPointDirection)) * myXspeed), 2) + pow((float)(sin(radians((float)myPointDirection)) * myYspeed), 2) );
+    return 0;
+  }
     public double getXspeed() { return myXspeed; }
     public void setXspeed(double d) { myXspeed = d; }
     public double getYspeed() { return myYspeed; }
