@@ -1,5 +1,6 @@
 class Spaceship extends Floater  
 {   
+  protected double brakingPower;
     Spaceship()
     {
       corners = 4;
@@ -14,26 +15,46 @@ class Spaceship extends Floater
       xCorners[3] = 16;
       yCorners[3] = 0;
       myColor = 200;
-      myCenterX = myCenterY = 400;
+      myCenterX = width/2;
+      myCenterY = height/2;
       myXspeed = myYspeed = 0;
       myPointDirection = 0;
+      brakingPower = 0.25;
     }
     
     public double getX() { return myCenterX; }
     public void setX(double d) { myCenterX = d; }
     public double getY() { return myCenterY; }
     public void setY(double d) { myCenterY = d; }
+    public double getBrakes() { return brakingPower; }
     public double getSpeed() { 
-    if(myXspeed >= 0 && myYspeed > 0) 
-      return sqrt( pow((float)myXspeed, 2) + pow((float)myYspeed, 2) );
-    if(myXspeed <= 0 && myYspeed < 0) 
-      return -sqrt( pow((float)myXspeed, 2) + pow((float)myYspeed, 2) );
-    if(myXspeed <= 0 && myYspeed > 0) 
-      return -sqrt( pow((float)myXspeed, 2) + pow((float)myYspeed, 2) );
-    if(myXspeed >= 0 && myYspeed < 0) 
-      return sqrt( pow((float)myXspeed, 2) + pow((float)myYspeed, 2) );
-    return 0;
-  }
+      if(myXspeed >= 0 && myYspeed > 0) 
+        return Math.sqrt( Math.pow(myXspeed, 2) + Math.pow(myYspeed, 2) );
+      if(myXspeed <= 0 && myYspeed < 0) 
+        return -Math.sqrt( Math.pow(myXspeed, 2) + Math.pow(myYspeed, 2) );
+      if(myXspeed <= 0 && myYspeed > 0) 
+        return -Math.sqrt( Math.pow(myXspeed, 2) + Math.pow(myYspeed, 2) );
+      if(myXspeed >= 0 && myYspeed < 0) 
+        return Math.sqrt( Math.pow(myXspeed, 2) + Math.pow(myYspeed, 2) );
+      return 0;
+    }
+  
+    public double getSpeedPlusAccel(double accelAmount)
+    {
+      double dRadians = myPointDirection*(Math.PI/180);
+      double plusX = accelAmount * Math.cos(dRadians);
+      double plusY = accelAmount * Math.sin(dRadians);
+
+      if(myXspeed >= 0 && myYspeed > 0) 
+        return Math.sqrt( Math.pow(myXspeed + plusX, 2) + Math.pow(myYspeed + plusY, 2) );
+      if(myXspeed <= 0 && myYspeed < 0) 
+        return -Math.sqrt( Math.pow(myXspeed + plusX, 2) + Math.pow(myYspeed + plusY, 2) );
+      if(myXspeed <= 0 && myYspeed > 0) 
+        return -Math.sqrt( Math.pow(myXspeed + plusX, 2) + Math.pow(myYspeed + plusY, 2) );
+      if(myXspeed >= 0 && myYspeed < 0) 
+        return Math.sqrt( Math.pow(myXspeed + plusX, 2) + Math.pow(myYspeed + plusY, 2) );
+      return 0;
+    }
     public double getXspeed() { return myXspeed; }
     public void setXspeed(double d) { myXspeed = d; }
     public double getYspeed() { return myYspeed; }
@@ -41,7 +62,7 @@ class Spaceship extends Floater
     public double getDirection() { return myPointDirection; }
     public void setDirection(double d) { myPointDirection = d; }
     public double getAngleofDirection() { 
-      if((float)myXspeed != 0)
+      if(myXspeed != 0)
         return atan((float)(myYspeed/myXspeed));
       else if(myYspeed > 0)
       {
