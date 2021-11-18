@@ -6,7 +6,7 @@ class Star //note that this class does NOT extend Floater
   {
     xPos = (float)(Math.random() * width);
     yPos = (float)(Math.random() * height);
-    col = color((int)(Math.random() * 256), (int)(Math.random() * 256), (int)(Math.random() * 256));
+    col = color((int)(Math.random() * 100 + 50), (int)(Math.random() * 100 + 50), (int)(Math.random() * 100 + 50));
   }
   
   void show()

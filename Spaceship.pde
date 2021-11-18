@@ -14,10 +14,8 @@ class Spaceship extends Floater
       xCorners[3] = 16;
       yCorners[3] = 0;
       myColor = 200;
-      myCenterX = 400;
-      myCenterY = 400;
-      myXspeed = 0;
-      myYspeed = 0;
+      myCenterX = myCenterY = 400;
+      myXspeed = myYspeed = 0;
       myPointDirection = 0;
     }
     
@@ -26,14 +24,14 @@ class Spaceship extends Floater
     public double getY() { return myCenterY; }
     public void setY(double d) { myCenterY = d; }
     public double getSpeed() { 
-    if(myXspeed > 0 && myYspeed > 0) 
-      return sqrt( pow((float)(cos(radians((float)myPointDirection)) * myXspeed), 2) + pow((float)(sin(radians((float)myPointDirection)) * myYspeed), 2) );
-    if(myXspeed < 0 && myYspeed < 0) 
-      return -sqrt( pow((float)(cos(radians((float)myPointDirection)) * myXspeed), 2) + pow((float)(sin(radians((float)myPointDirection)) * myYspeed), 2) );
-    if(myXspeed < 0 && myYspeed > 0) 
-      return -sqrt( pow((float)(cos(radians((float)myPointDirection)) * myXspeed), 2) + pow((float)(sin(radians((float)myPointDirection)) * myYspeed), 2) );
-    if(myXspeed > 0 && myYspeed < 0) 
-      return sqrt( pow((float)(cos(radians((float)myPointDirection)) * myXspeed), 2) + pow((float)(sin(radians((float)myPointDirection)) * myYspeed), 2) );
+    if(myXspeed >= 0 && myYspeed > 0) 
+      return sqrt( pow((float)myXspeed, 2) + pow((float)myYspeed, 2) );
+    if(myXspeed <= 0 && myYspeed < 0) 
+      return -sqrt( pow((float)myXspeed, 2) + pow((float)myYspeed, 2) );
+    if(myXspeed <= 0 && myYspeed > 0) 
+      return -sqrt( pow((float)myXspeed, 2) + pow((float)myYspeed, 2) );
+    if(myXspeed >= 0 && myYspeed < 0) 
+      return sqrt( pow((float)myXspeed, 2) + pow((float)myYspeed, 2) );
     return 0;
   }
     public double getXspeed() { return myXspeed; }
@@ -46,9 +44,13 @@ class Spaceship extends Floater
       if((float)myXspeed != 0)
         return atan((float)(myYspeed/myXspeed));
       else if(myYspeed > 0)
-        return 270;
+      {
+        return 3*PI/2;
+      }
       else if(myYspeed < 0)
-        return 90;
-      return 0;
+      {
+        return PI/2;
+      }
+      else return 180;
   }
 }

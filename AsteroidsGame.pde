@@ -10,21 +10,24 @@ public void setup()
 public void draw() 
 {
   background(0);
-  if(w == true) sam.accelerate(0.1);
+  if(w == true && abs((float)sam.getSpeed()) <= 20) sam.accelerate(0.1);
   //if(s == true) sam.accelerate(-0.1);
   if(a == true) sam.turn(-5);
   if(d == true) sam.turn(5);
   
-  if(w == false) {
-    double trueDir;
-    trueDir = sam.getDirection();
-    sam.setDirection(sam.getAngleofDirection());
-    sam.accelerate(-(sam.getSpeed())/30);
-    sam.setDirection(trueDir);
+  if(w == false) {   
+    sam.setXspeed(sam.getXspeed() - (cos((float)sam.getAngleofDirection()))/3);  //MAKE THESE BASED ON - or + X/Y COORDS SO THAT IT WORK
+    sam.setYspeed(sam.getYspeed() - (sin((float)sam.getAngleofDirection()))/3);     
+    //sam.accelerate(-(sam.getSpeed())/30);
+    if(abs((float)sam.getXspeed()) < 0.5)
+      sam.setXspeed(0);
+    if(abs((float)sam.getYspeed()) < 0.5)
+      sam.setYspeed(0);
   }
   
   for(int i = 0; i < stars.length; i++)
     stars[i].show();
+  
   sam.move();
   sam.show();
 }
