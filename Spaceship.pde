@@ -13,7 +13,7 @@ class Spaceship extends Floater
       xCorners[2] = -8;
       yCorners[2] = 8;
       xCorners[3] = 16;
-      yCorners[3] = 0;
+      yCorners[3] = -1;
       myColor = color(200, 200, 200);
       myCenterX = width/2;
       myCenterY = height/2;
@@ -73,5 +73,29 @@ class Spaceship extends Floater
         return PI/2;
       }
       else return 180;
+  }
+  public void move ()
+  {          
+    myCenterX += myXspeed;    
+    myCenterY += myYspeed;     
+
+    //wrap around screen    
+    if(myCenterX > width)
+    {     
+      myCenterX -= width;    
+    }    
+    else if (myCenterX<0)
+    {     
+      myCenterX += width;    
+    }    
+    if(myCenterY > height)
+    {    
+      myCenterY -= height;    
+    } 
+    
+    else if (myCenterY < 0)
+    {     
+      myCenterY += height;    
+    }   
   }
 }
