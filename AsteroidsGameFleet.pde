@@ -1,7 +1,8 @@
 Spaceship[] ships = new Spaceship[12];
 double[] xPos = {0, -35, -35, -60, -60, -20, -20, 20, 20, 60, 60, 100}, yPos = {0, -18, 18, -48, 48, -36, 36, -24, 24, -12, 12, 0};
-Star[] stars = new Star[100];
+Star[] stars = new Star[150];
 ArrayList<Asteroid> asts = new ArrayList<Asteroid>();
+int destAsteroids = 0;
 public void setup() 
 {
   size(600, 600);
@@ -51,6 +52,8 @@ public void draw()
       ships[i].setXspeed(0);
       ships[i].turn(pDir);
     }
+    for(int i = 0; i < stars.length; i++)
+      stars[i].change();
     space = false;
   }
   
@@ -89,6 +92,15 @@ public void draw()
     ships[i].move();
     ships[i].show();
   }
+  for(int i = 0; i < ships.length; i++) {
+    for(int j = 0; j < ships[i].getCorners(); j++)
+      for(int k = 0; k < asts.size(); k++)
+        if((double)dist((float)ships[i].getCornerPosX(j), (float)ships[i].getCornerPosY(j), (float)asts.get(k).getCenterX(), (float)asts.get(k).getCenterY()) < asts.get(k).getRadius()) {
+          asts.set(k, new Asteroid());
+          destAsteroids++;
+        }
+  }
+  System.out.println(destAsteroids);
   
   noStroke();
   fill(0, 0, 255);

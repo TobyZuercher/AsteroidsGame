@@ -4,18 +4,18 @@ class Asteroid extends Floater {
     corners = 6;
     xCorners = new int[corners];
     yCorners = new int[corners];
-    xCorners[0] = 5;
-    yCorners[0] = -10;
-    xCorners[1] = 10;
-    yCorners[1] = 0;
-    xCorners[2] = 5;
-    yCorners[2] = 10;
-    xCorners[3] = -5;
-    yCorners[3] = 10;
-    xCorners[4] = -10;
-    yCorners[4] = 0;
-    xCorners[5] = -5;
-    yCorners[5] = -10;
+    xCorners[0] = (int)(Math.random() * 3) + 4;
+    yCorners[0] = -(int)(Math.random() * 3) - 9;
+    xCorners[1] = (int)(Math.random() * 4) + 11;
+    yCorners[1] = (int)(Math.random() * 3) -1;
+    xCorners[2] = (int)(Math.random() * 3) + 4;
+    yCorners[2] = (int)(Math.random() * 3) + 9;
+    xCorners[3] = -(int)(Math.random() * 3) - 4;
+    yCorners[3] = (int)(Math.random() * 3) + 9;
+    xCorners[4] = -(int)(Math.random() * 4) - 11;
+    yCorners[4] = (int)(Math.random() * 3) -1;
+    xCorners[5] = -(int)(Math.random() * 3) - 4;
+    yCorners[5] = -(int)(Math.random() * 3) - 9;
     myCenterX = (Math.random() * (width + 100) - 50);
     if(myCenterX > -10 && myCenterX < width + 10) {
       if(Math.random() < 0.5)
@@ -56,4 +56,12 @@ class Asteroid extends Floater {
     }
     turn(turnSpeed);
   }
+  double getRadius() {
+    double d = 0;
+    for(int i = 0; i < corners; i++)
+      d+= (double)dist((float)myCenterX, (float)myCenterY, (float)(xCorners[i] + myCenterX), (float)(yCorners[i] + myCenterY));
+    return d/corners;
+  }
+  double getCenterX() { return myCenterX; }
+  double getCenterY() { return myCenterY; }
 }

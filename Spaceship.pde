@@ -98,4 +98,7 @@ class Spaceship extends Floater
       myCenterY += height;    
     }   
   }
+  public int getCorners() { return corners; }
+  public double getCornerPosX(int i) { return xCorners[i] + myCenterX; }
+  public double getCornerPosY(int i) { return yCorners[i] + myCenterY; }
 }
