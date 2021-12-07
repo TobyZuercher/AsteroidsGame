@@ -100,7 +100,7 @@ public void draw()
           destAsteroids++;
         }
   }
-  System.out.println(destAsteroids);
+  //System.out.println(destAsteroids);
   
   noStroke();
   fill(0, 0, 255);
