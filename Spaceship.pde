@@ -1,6 +1,7 @@
 class Spaceship extends Floater  
 {   
   protected double brakingPower;
+  protected int alpha;
     Spaceship()
     {
       corners = 4;
@@ -14,7 +15,8 @@ class Spaceship extends Floater
       yCorners[2] = 8;
       xCorners[3] = 16;
       yCorners[3] = -1;
-      myColor = color(200, 200, 200);
+      alpha = 255;
+      myColor = color(200, 200, 200, alpha);
       myCenterX = width/2;
       myCenterY = height/2;
       myXspeed = myYspeed = 0;
@@ -101,4 +103,6 @@ class Spaceship extends Floater
   public int getCorners() { return corners; }
   public double getCornerPosX(int i) { return xCorners[i] + myCenterX; }
   public double getCornerPosY(int i) { return yCorners[i] + myCenterY; }
+  public void kill() { alpha = 0; myColor = color(200, 200, 200, alpha); }
+  public void setCol(int col) { myColor = color(col); }
 }

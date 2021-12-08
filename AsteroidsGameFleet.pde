@@ -3,6 +3,7 @@ double[] xPos = {0, -35, -35, -60, -60, -20, -20, 20, 20, 60, 60, 100}, yPos = {
 Star[] stars = new Star[150];
 ArrayList<Asteroid> asts = new ArrayList<Asteroid>();
 int destAsteroids = 0;
+boolean gameOver = false;
 public void setup() 
 {
   size(600, 600);
@@ -15,43 +16,54 @@ public void setup()
     ships[i].setY(y + yPos[i]);
     ships[i].setX(x + xPos[i]);
   }
+  ships[0].setCol(color(200, 50, 50));
   for(int i = 0; i < 20; i++) {
     asts.add(new Asteroid());
   }
 }
 public void draw() 
 {
+  if(gameOver) {
+    noLoop();
+    setEndScreen();
+    return;
+  }
   background(0);
   if(w && Math.abs(ships[0].getSpeedPlusAccel(0.1)) <= 10)
-    for(int i = 0; i < ships.length; i++) {
-      ships[i].accelerate(0.1);
+    for(int i = 0;i < ships.length; i++) {
+      if(ships[i] != null)
+        ships[i].accelerate(0.1);
     }
   if(a) {
     pushMatrix();
     translate((float)ships[0].getX(), (float)ships[0].getY());
     double x = ships[0].getX(), y = ships[0].getY();
     rotate(radians(-5));
-    for(int i = 0; i < ships.length; i++) {
-      ships[i].turn(-5); //ROTATE, maybe use rotate() + translate() function?? //no idea how to do this. maybe have an "offset rot" variable?
-      ships[i].setY(y + yPos[i]);
-      ships[i].setX(x + xPos[i]);
-    }
+    for(int i = 0; i < ships.length; i++) 
+      if(ships[i] != null) {
+        ships[i].turn(-5); //ROTATE, maybe use rotate() + translate() function?? //no idea how to do this. maybe have an "offset rot" variable?
+        ships[i].setY(y + yPos[i]);
+        ships[i].setX(x + xPos[i]);
+      }
     popMatrix();
     //rotate(radians(-5));
     //translate(-(float)ships[0].getX(), -(float)ships[0].getY());
   }
   if(d)
     for(int i = 0; i < ships.length; i++)
-      ships[i].turn(5);
+      if(ships[i] != null) {
+        ships[i].turn(5);
+      }
   if(space) {
     double x = (Math.random() * width), y = (Math.random() * height), pDir = (Math.random() * 360);
-    for(int i = 0; i < ships.length; i++) {
-      ships[i].setY(y + yPos[i]);
-      ships[i].setX(x + xPos[i]);
-      ships[i].setYspeed(0);
-      ships[i].setXspeed(0);
-      ships[i].turn(pDir);
-    }
+    for(int i = 0; i < ships.length; i++) 
+      if(ships[i] != null) {
+        ships[i].setY(y + yPos[i]);
+        ships[i].setX(x + xPos[i]);
+        ships[i].setYspeed(0);
+        ships[i].setXspeed(0);
+        ships[i].turn(pDir);
+      }
     for(int i = 0; i < stars.length; i++)
       stars[i].change();
     space = false;
@@ -60,24 +72,30 @@ public void draw()
   if(!w) {   
     if(ships[0].getXspeed() > 0)
       for(int i = 0; i < ships.length; i++)
-        ships[i].setXspeed(ships[i].getXspeed() - Math.abs(Math.cos(ships[i].getAngleofDirection()))/(1/ships[i].getBrakes()));
+        if(ships[i] != null)
+          ships[i].setXspeed(ships[i].getXspeed() - Math.abs(Math.cos(ships[i].getAngleofDirection()))/(1/ships[i].getBrakes()));
     if(ships[0].getXspeed() < 0)
       for(int i = 0; i < ships.length; i++)
-        ships[i].setXspeed(ships[i].getXspeed() + Math.abs(Math.cos(ships[i].getAngleofDirection()))/(1/ships[i].getBrakes()));
+        if(ships[i] != null)
+          ships[i].setXspeed(ships[i].getXspeed() + Math.abs(Math.cos(ships[i].getAngleofDirection()))/(1/ships[i].getBrakes()));
         
     if(ships[0].getYspeed() > 0)
       for(int i = 0; i < ships.length; i++)
-        ships[i].setYspeed(ships[i].getYspeed() - Math.abs(Math.sin(ships[i].getAngleofDirection()))/(1/ships[i].getBrakes()));
+        if(ships[i] != null)
+          ships[i].setYspeed(ships[i].getYspeed() - Math.abs(Math.sin(ships[i].getAngleofDirection()))/(1/ships[i].getBrakes()));
     if(ships[0].getYspeed() < 0)
       for(int i = 0; i < ships.length; i++)
-        ships[i].setYspeed(ships[i].getYspeed() + Math.abs(Math.sin(ships[i].getAngleofDirection()))/(1/ships[i].getBrakes()));
+        if(ships[i] != null)
+          ships[i].setYspeed(ships[i].getYspeed() + Math.abs(Math.sin(ships[i].getAngleofDirection()))/(1/ships[i].getBrakes()));
         
     if(Math.abs(ships[0].getXspeed()) < 0.5)
       for(int i = 0; i < ships.length; i++)
-        ships[i].setXspeed(0);
+        if(ships[i] != null)
+          ships[i].setXspeed(0);
     if(Math.abs(ships[0].getYspeed()) < 0.5)
       for(int i = 0; i < ships.length; i++)
-        ships[i].setYspeed(0);
+        if(ships[i] != null)
+          ships[i].setYspeed(0);
   }
   
   for(int i = 0; i < stars.length; i++)
@@ -88,19 +106,25 @@ public void draw()
     asts.get(i).show();
   }
   
+  for(int i = 0; i < ships.length; i++) 
+    if(ships[i] != null) {
+      ships[i].move();
+      ships[i].show();
+    }
   for(int i = 0; i < ships.length; i++) {
-    ships[i].move();
-    ships[i].show();
-  }
-  for(int i = 0; i < ships.length; i++) {
-    for(int j = 0; j < ships[i].getCorners(); j++)
+    for(int j = 0; ships[i] != null && j < ships[i].getCorners(); j++)
       for(int k = 0; k < asts.size(); k++)
-        if((double)dist((float)ships[i].getCornerPosX(j), (float)ships[i].getCornerPosY(j), (float)asts.get(k).getCenterX(), (float)asts.get(k).getCenterY()) < asts.get(k).getRadius()) {
-          asts.set(k, new Asteroid());
-          destAsteroids++;
-        }
+        if(ships[i] != null)
+          if((double)dist((float)ships[i].getCornerPosX(j), (float)ships[i].getCornerPosY(j), (float)asts.get(k).getCenterX(), (float)asts.get(k).getCenterY()) < asts.get(k).getRadius()) {
+            asts.set(k, new Asteroid());
+            destAsteroids++;
+            ships[i].kill();
+            ships[i] = null;
+            if(ships[0] == null) {
+              gameOver = true;
+            }
+          }
   }
-  //System.out.println(destAsteroids);
   
   noStroke();
   fill(0, 0, 255);
@@ -142,4 +166,35 @@ boolean move(char c, boolean b)
     
     default: return b;
   }
+}
+
+void reset() {
+  loop();
+  background(0);
+  for(int i = 0; i < stars.length; i++)
+    stars[i] = new Star();
+  for(int i = 0; i < ships.length; i++) {
+    ships[i] = new Spaceship();
+    double x = width/2, y = height/2;
+    ships[i].setY(y + yPos[i]);
+    ships[i].setX(x + xPos[i]);
+  }
+  ships[0].setCol(color(200, 50, 50));
+  for(int i = 0; i < 20; i++) {
+    asts.add(new Asteroid());
+  }
+}
+
+void setEndScreen() {
+  while(asts.size() > 0)
+    asts.remove(0);
+  for(int i = 0; i < ships.length; i++)
+    if(ships[i] != null) {
+      ships[i].kill();
+      ships[i].show();
+      ships[i] = null;
+    }
+  fill(0);
+  noStroke();
+  //rect(0, 0, width, height);
 }
