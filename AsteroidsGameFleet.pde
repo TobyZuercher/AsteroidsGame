@@ -19,7 +19,7 @@ public void setup()
     ships[i].setX(x + xPos[i]);
     ships[i].rot(degrees((float)ships[i].getAngle(ships[0].getX() - ships[i].getX(), ships[0].getY() - ships[i].getY())));
   }
-  ships[0].modLives(-2);
+  ships[0].lives(1);
   ships[0].setCol(color(200, 50, 50));
   for(int i = 0; i < 15; i++) {
     asts.add(new Asteroid(1 + (double)destAsteroids/50));
@@ -165,7 +165,7 @@ public void draw()
           if((double)dist((float)ships[i].getCornerPosX(j), (float)ships[i].getCornerPosY(j), (float)asts.get(k).getCenterX(), (float)asts.get(k).getCenterY()) < asts.get(k).getRadius()) {
             destAsteroids++;
             asts.set(k, new Asteroid(1 + (double)destAsteroids/50));
-            ships[i].modLives(-1);
+            ships[i].lives(ships[i].lives() - 1);
             ships[i].setCol(ships[i].lives() == 2 ? color(200, 100, 100) : color(200, 50, 50));
             if(ships[i].lives() == 0) {
               ships[i].kill();
@@ -255,7 +255,7 @@ void reset() {
     ships[i].setX(x + xPos[i]);
     ships[i].rot(degrees((float)ships[i].getAngle(ships[0].getX() - ships[i].getX(), ships[0].getY() - ships[i].getY())));
   }
-  ships[0].modLives(-2);
+  ships[0].lives(1);
   ships[0].setCol(color(200, 50, 50));
   for(int i = 0; i < 20; i++) {
     asts.add(new Asteroid(1 + (double)destAsteroids/50));
