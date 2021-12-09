@@ -1,7 +1,7 @@
 class Star //note that this class does NOT extend Floater
 {
-  float xPos, yPos, size;
-  int col;
+  protected float xPos, yPos, size;
+  protected int col;
   Star()
   {
     xPos = (float)(Math.random() * width);
@@ -10,13 +10,13 @@ class Star //note that this class does NOT extend Floater
     size = random(4, 8);
   }
   
-  void show() {
+  public void show() {
     fill(col, col, col);
     noStroke();
     ellipse(xPos, yPos, size, size);
   }
   
-  void change() {
+  public void change() {
     size = random(4, 8);
     col = (int)(Math.random() * 100 + 50);
   }

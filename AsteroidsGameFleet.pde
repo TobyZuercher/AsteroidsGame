@@ -2,11 +2,13 @@ Spaceship[] ships = new Spaceship[12];
 double[] xPos = {0, -35, -35, -60, -60, -20, -20, 20, 20, 60, 60, 100}, yPos = {0, -18, 18, -48, 48, -36, 36, -24, 24, -12, 12, 0};
 Star[] stars = new Star[150];
 ArrayList<Asteroid> asts = new ArrayList<Asteroid>();
-int destAsteroids = 0;
+int destAsteroids = 0, canShoot = 0;
 boolean gameOver = false;
+ArrayList<Lazer> bullets = new ArrayList<Lazer>();
 public void setup() 
 {
-  size(600, 600);
+  //size(600, 600);
+  fullScreen();
   background(0);
   for(int i = 0; i < stars.length; i++)
     stars[i] = new Star();
@@ -15,6 +17,7 @@ public void setup()
     double x = width/2, y = height/2;
     ships[i].setY(y + yPos[i]);
     ships[i].setX(x + xPos[i]);
+    ships[i].rot(180 * ships[i].getAngle(ships[0].getX() - ships[i].getX(), ships[0].getY() - ships[i].getY())/PI);
   }
   ships[0].setCol(color(200, 50, 50));
   for(int i = 0; i < 20; i++) {
@@ -23,50 +26,80 @@ public void setup()
 }
 public void draw() 
 {
+  //ships[0] = null;
+  if(ships[0] == null) {
+     gameOver = true;
+  }
   if(gameOver) {
     noLoop();
     setEndScreen();
     return;
   }
-  background(0);
+  if(canShoot % 20 != 0)
+    canShoot++;
+  if(canShoot > 59)
+    canShoot -= 60;
+  fill(0, 0, 0, 130);
+  noStroke();
+  rect(0, 0, width, height);
   if(w && Math.abs(ships[0].getSpeedPlusAccel(0.1)) <= 10)
     for(int i = 0;i < ships.length; i++) {
       if(ships[i] != null)
         ships[i].accelerate(0.1);
     }
   if(a) {
-    pushMatrix();
-    translate((float)ships[0].getX(), (float)ships[0].getY());
     double x = ships[0].getX(), y = ships[0].getY();
-    rotate(radians(-5));
     for(int i = 0; i < ships.length; i++) 
       if(ships[i] != null) {
-        ships[i].turn(-5); //ROTATE, maybe use rotate() + translate() function?? //no idea how to do this. maybe have an "offset rot" variable?
-        ships[i].setY(y + yPos[i]);
-        ships[i].setX(x + xPos[i]);
+        double d = (double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
+        if(xPos[i] < 0)
+          d = -(double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
+        ships[i].turn(-ships[i].getTurnPower());
+        ships[i].rot(-ships[i].getTurnPower());
+        ships[i].setY(y + d * Math.sin(radians((float)ships[i].rot())));
+        ships[i].setX(x + d * Math.cos(radians((float)ships[i].rot())));
       }
-    popMatrix();
-    //rotate(radians(-5));
-    //translate(-(float)ships[0].getX(), -(float)ships[0].getY());
   }
-  if(d)
-    for(int i = 0; i < ships.length; i++)
+  if(d) {
+    double x = ships[0].getX(), y = ships[0].getY();
+    for(int i = 0; i < ships.length; i++) 
       if(ships[i] != null) {
-        ships[i].turn(5);
+        double d = (double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
+        if(xPos[i] < 0)
+          d = -(double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
+        ships[i].turn(ships[i].getTurnPower());
+        ships[i].rot(ships[i].getTurnPower());
+        ships[i].setY(y + d * Math.sin(radians((float)ships[i].rot())));
+        ships[i].setX(x + d * Math.cos(radians((float)ships[i].rot())));
       }
+  }
   if(space) {
     double x = (Math.random() * width), y = (Math.random() * height), pDir = (Math.random() * 360);
     for(int i = 0; i < ships.length; i++) 
       if(ships[i] != null) {
-        ships[i].setY(y + yPos[i]);
-        ships[i].setX(x + xPos[i]);
+        double d = (double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
+        if(xPos[i] < 0)
+          d = -(double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
         ships[i].setYspeed(0);
         ships[i].setXspeed(0);
         ships[i].turn(pDir);
+        ships[i].rot(pDir);
+        ships[i].setY(y + d * Math.sin(radians((float)ships[i].rot())));
+        ships[i].setX(x + d * Math.cos(radians((float)ships[i].rot())));
       }
     for(int i = 0; i < stars.length; i++)
       stars[i].change();
     space = false;
+  }
+  
+  if(r && canShoot % 20 == 0) {
+    if(ships[0] != null) {
+      canShoot++;
+      float randSpread = random(2.5, 4);
+      bullets.add(new Lazer(ships[0].getX(), ships[0].getY(), radians((float)ships[0].getDirection()), ships[0].getXspeed(), ships[0].getYspeed()));
+      bullets.add(new Lazer(ships[0].getX(), ships[0].getY(), radians((float)ships[0].getDirection() + randSpread), ships[0].getXspeed(), ships[0].getYspeed()));
+      bullets.add(new Lazer(ships[0].getX(), ships[0].getY(), radians((float)ships[0].getDirection() - randSpread), ships[0].getXspeed(), ships[0].getYspeed()));
+    }
   }
   
   if(!w) {   
@@ -101,6 +134,17 @@ public void draw()
   for(int i = 0; i < stars.length; i++)
     stars[i].show();
   
+  for(int i = bullets.size() - 1; i >= 0; i--) {
+    if(bullets.get(i).getX() >= width || bullets.get(i).getX() <= 0 || bullets.get(i).getY() >= height || bullets.get(i).getY() <= 0)
+      bullets.remove(i);
+    else {
+    bullets.get(i).move();
+    bullets.get(i).show();
+    }
+  }
+  
+  rectMode(CORNER);
+  
   for(int i = 0; i < asts.size(); i++){
     asts.get(i).move();
     asts.get(i).show();
@@ -120,10 +164,22 @@ public void draw()
             destAsteroids++;
             ships[i].kill();
             ships[i] = null;
-            if(ships[0] == null) {
-              gameOver = true;
-            }
           }
+  }
+
+  BULLET_LOOP:
+  for(int i = bullets.size() - 1; i >= 0; i--) {
+    for(int j = 0; j < 3; j+= 2) {
+      for(int k = 0; k < asts.size(); k++) {
+        double[] hb = bullets.get(i).getHB();
+        if((double)dist((float)hb[j], (float)hb[j+1], (float)asts.get(k).getCenterX(), (float)asts.get(k).getCenterY()) < asts.get(k).getRadius()) {
+          asts.set(k, new Asteroid());
+          bullets.remove(i);
+          destAsteroids++;
+          continue BULLET_LOOP;
+        }
+      }
+    }
   }
   
   noStroke();
@@ -134,7 +190,7 @@ public void draw()
   rect(0, 0, 5, height);
   rect(width-5, 0, 5, height);
 }
-boolean w = false, a = false, s = false, d = false, space = false;
+boolean w = false, a = false, s = false, d = false, space = false, r = false;
 
 void keyPressed()
 {
@@ -162,22 +218,29 @@ boolean move(char c, boolean b)
     case 'D': return d = b;
     case 'd': return d = b;
     
-    case ' ': return space = b;
+    case 'R': return r = b;
+    case 'r': return r = b;
     
+    case ' ': return space = b;
+        
     default: return b;
   }
 }
 
 void reset() {
+  destAsteroids = 0;
+  gameOver = false;
+  canShoot = 0;
   loop();
   background(0);
-  for(int i = 0; i < stars.length; i++)
+  for(int i = 0; i < stars.length; i++)  
     stars[i] = new Star();
   for(int i = 0; i < ships.length; i++) {
     ships[i] = new Spaceship();
     double x = width/2, y = height/2;
     ships[i].setY(y + yPos[i]);
     ships[i].setX(x + xPos[i]);
+    ships[i].rot(180 * ships[i].getAngle(ships[0].getX() - ships[i].getX(), ships[0].getY() - ships[i].getY())/PI);
   }
   ships[0].setCol(color(200, 50, 50));
   for(int i = 0; i < 20; i++) {
@@ -194,7 +257,33 @@ void setEndScreen() {
       ships[i].show();
       ships[i] = null;
     }
+  while(bullets.size() > 0)
+    bullets.remove(0);
+    
+  background(0);
+  
   fill(0);
-  noStroke();
-  //rect(0, 0, width, height);
+  stroke(200);
+  rect(width/4, height/4, width/2, height/2, 10);
+  fill(255);
+  textAlign(CENTER);
+  textSize(30);
+  text("Your score was " + destAsteroids, width/2, height/3);
+  fill(30);
+  rect(0.9 * width/3, height/2, width - (2 * 0.9 * width/3), height/6, 10);
+  fill(255);
+  text("Play again?", width/2, 7*height/12);
+}
+
+void mousePressed() {
+  if(gameOver) {
+    if(mouseX > (0.9 * width/3) && mouseX < (0.9 * width/3) + (width - (2 * 0.9 * width/3)) && mouseY > height/2 && mouseY < 4 * height/6)
+        reset();
+  }
+  else move('r', true);
+}
+
+void mouseReleased() {
+  if(!gameOver) 
+    move('r', false);
 }

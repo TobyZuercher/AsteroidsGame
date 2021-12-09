@@ -1,7 +1,7 @@
 class Spaceship extends Floater  
 {   
-  protected double brakingPower;
-  protected int alpha;
+  protected double brakingPower, offSetRot;
+  protected int alpha, turnPower;
     Spaceship()
     {
       corners = 4;
@@ -20,8 +20,10 @@ class Spaceship extends Floater
       myCenterX = width/2;
       myCenterY = height/2;
       myXspeed = myYspeed = 0;
-      myPointDirection = 0;
+      myPointDirection = 0.001;
       brakingPower = 0.25;
+      offSetRot = 0;
+      turnPower = 3;
     }
     
     public double getX() { return myCenterX; }
@@ -65,7 +67,7 @@ class Spaceship extends Floater
     public void setDirection(double d) { myPointDirection = d; }
     public double getAngleofDirection() { 
       if(myXspeed != 0)
-        return atan((float)(myYspeed/myXspeed));
+        return Math.atan(myYspeed/myXspeed);
       else if(myYspeed > 0)
       {
         return 3*PI/2;
@@ -74,7 +76,20 @@ class Spaceship extends Floater
       {
         return PI/2;
       }
-      else return 180;
+      else return 0;
+  }
+  public double getAngle(double x, double y) {
+      if(x != 0)
+        return Math.atan(y/x);
+      else if(y > 0)
+      {
+        return 3*PI/2;
+      }
+      else if(y < 0)
+      {
+        return PI/2;
+      }
+      else return 0;
   }
   public void move ()
   {          
@@ -105,4 +120,7 @@ class Spaceship extends Floater
   public double getCornerPosY(int i) { return yCorners[i] + myCenterY; }
   public void kill() { alpha = 0; myColor = color(200, 200, 200, alpha); }
   public void setCol(int col) { myColor = color(col); }
+  public void rot(double d) { offSetRot += d; }
+  public double rot() { return offSetRot; }
+  public int getTurnPower() { return turnPower; }
 }
