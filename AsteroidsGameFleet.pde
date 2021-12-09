@@ -7,8 +7,8 @@ boolean gameOver = false;
 ArrayList<Lazer> bullets = new ArrayList<Lazer>();
 public void setup() 
 {
-  //size(600, 600);
-  fullScreen();
+  size(600, 600);
+  //fullScreen();
   background(0);
   for(int i = 0; i < stars.length; i++)
     stars[i] = new Star();
