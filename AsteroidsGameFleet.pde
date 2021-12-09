@@ -19,10 +19,10 @@ public void setup()
     ships[i].setX(x + xPos[i]);
     ships[i].rot(degrees((float)ships[i].getAngle(ships[0].getX() - ships[i].getX(), ships[0].getY() - ships[i].getY())));
   }
-  ships[0].lives(-2);
+  ships[0].modLives(-2);
   ships[0].setCol(color(200, 50, 50));
   for(int i = 0; i < 15; i++) {
-    asts.add(new Asteroid());
+    asts.add(new Asteroid(1 + (double)destAsteroids/50));
   }
 }
 public void draw() 
@@ -163,9 +163,9 @@ public void draw()
       for(int k = 0; k < asts.size(); k++)
         if(ships[i] != null)
           if((double)dist((float)ships[i].getCornerPosX(j), (float)ships[i].getCornerPosY(j), (float)asts.get(k).getCenterX(), (float)asts.get(k).getCenterY()) < asts.get(k).getRadius()) {
-            asts.set(k, new Asteroid());
             destAsteroids++;
-            ships[i].lives(-1);
+            asts.set(k, new Asteroid(1 + (double)destAsteroids/50));
+            ships[i].modLives(-1);
             ships[i].setCol(ships[i].lives() == 2 ? color(200, 100, 100) : color(200, 50, 50));
             if(ships[i].lives() == 0) {
               ships[i].kill();
@@ -181,9 +181,9 @@ public void draw()
       for(int k = 0; k < asts.size(); k++) {
         double[] hb = bullets.get(i).getHB();
         if((double)dist((float)hb[j], (float)hb[j+1], (float)asts.get(k).getCenterX(), (float)asts.get(k).getCenterY()) < asts.get(k).getRadius()) {
-          asts.set(k, new Asteroid());
-          bullets.remove(i);
           destAsteroids++;
+          asts.set(k, new Asteroid(1 + (double)destAsteroids/50));
+          bullets.remove(i);
           continue BULLET_LOOP;
         }
       }
@@ -233,7 +233,7 @@ boolean move(char c, boolean b)
     
     case 'R': return r = b;
     case 'r': return r = b;
-    
+        
     case ' ': return space = b;
         
     default: return b;
@@ -255,10 +255,10 @@ void reset() {
     ships[i].setX(x + xPos[i]);
     ships[i].rot(degrees((float)ships[i].getAngle(ships[0].getX() - ships[i].getX(), ships[0].getY() - ships[i].getY())));
   }
-  ships[0].lives(-2);
+  ships[0].modLives(-2);
   ships[0].setCol(color(200, 50, 50));
   for(int i = 0; i < 20; i++) {
-    asts.add(new Asteroid());
+    asts.add(new Asteroid(1 + (double)destAsteroids/50));
   }
 }
 
