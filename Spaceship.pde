@@ -1,7 +1,7 @@
 class Spaceship extends Floater  
 {   
   protected double brakingPower, offSetRot;
-  protected int alpha, turnPower;
+  protected int alpha, turnPower, lives;
     Spaceship()
     {
       corners = 4;
@@ -23,7 +23,8 @@ class Spaceship extends Floater
       myPointDirection = 0.001;
       brakingPower = 0.25;
       offSetRot = 0;
-      turnPower = 3;
+      turnPower = 4;
+      lives = 3;
     }
     
     public double getX() { return myCenterX; }
@@ -123,4 +124,6 @@ class Spaceship extends Floater
   public void rot(double d) { offSetRot += d; }
   public double rot() { return offSetRot; }
   public int getTurnPower() { return turnPower; }
+  public void lives(int i) { lives += i; }
+  public int lives() { return lives; }
 }

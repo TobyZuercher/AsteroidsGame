@@ -19,8 +19,9 @@ public void setup()
     ships[i].setX(x + xPos[i]);
     ships[i].rot(180 * ships[i].getAngle(ships[0].getX() - ships[i].getX(), ships[0].getY() - ships[i].getY())/PI);
   }
+  ships[0].lives(-2);
   ships[0].setCol(color(200, 50, 50));
-  for(int i = 0; i < 20; i++) {
+  for(int i = 0; i < 15; i++) {
     asts.add(new Asteroid());
   }
 }
@@ -155,6 +156,8 @@ public void draw()
       ships[i].move();
       ships[i].show();
     }
+    
+  SHIPS_LOOP:
   for(int i = 0; i < ships.length; i++) {
     for(int j = 0; ships[i] != null && j < ships[i].getCorners(); j++)
       for(int k = 0; k < asts.size(); k++)
@@ -162,8 +165,13 @@ public void draw()
           if((double)dist((float)ships[i].getCornerPosX(j), (float)ships[i].getCornerPosY(j), (float)asts.get(k).getCenterX(), (float)asts.get(k).getCenterY()) < asts.get(k).getRadius()) {
             asts.set(k, new Asteroid());
             destAsteroids++;
-            ships[i].kill();
-            ships[i] = null;
+            ships[i].lives(-1);
+            ships[i].setCol(ships[i].lives() == 2 ? color(200, 100, 100) : color(200, 50, 50));
+            if(ships[i].lives() == 0) {
+              ships[i].kill();
+              ships[i] = null;
+            }
+            continue SHIPS_LOOP;
           }
   }
 
@@ -189,6 +197,11 @@ public void draw()
   fill(255, 150, 0);
   rect(0, 0, 5, height);
   rect(width-5, 0, 5, height);
+  fill(255);
+  textAlign(CORNER);
+  textSize(20);
+  text(destAsteroids + " asteroids destroyed", 20, 30);
+  
 }
 boolean w = false, a = false, s = false, d = false, space = false, r = false;
 
@@ -242,6 +255,7 @@ void reset() {
     ships[i].setX(x + xPos[i]);
     ships[i].rot(180 * ships[i].getAngle(ships[0].getX() - ships[i].getX(), ships[0].getY() - ships[i].getY())/PI);
   }
+  ships[0].lives(-2);
   ships[0].setCol(color(200, 50, 50));
   for(int i = 0; i < 20; i++) {
     asts.add(new Asteroid());
