@@ -17,7 +17,7 @@ public void setup()
     double x = width/2, y = height/2;
     ships[i].setY(y + yPos[i]);
     ships[i].setX(x + xPos[i]);
-    ships[i].rot(180 * ships[i].getAngle(ships[0].getX() - ships[i].getX(), ships[0].getY() - ships[i].getY())/PI);
+    ships[i].rot(degrees((float)ships[i].getAngle(ships[0].getX() - ships[i].getX(), ships[0].getY() - ships[i].getY())));
   }
   ships[0].lives(-2);
   ships[0].setCol(color(200, 50, 50));
@@ -253,7 +253,7 @@ void reset() {
     double x = width/2, y = height/2;
     ships[i].setY(y + yPos[i]);
     ships[i].setX(x + xPos[i]);
-    ships[i].rot(180 * ships[i].getAngle(ships[0].getX() - ships[i].getX(), ships[0].getY() - ships[i].getY())/PI);
+    ships[i].rot(degrees((float)ships[i].getAngle(ships[0].getX() - ships[i].getX(), ships[0].getY() - ships[i].getY())));
   }
   ships[0].lives(-2);
   ships[0].setCol(color(200, 50, 50));
