@@ -165,9 +165,9 @@ public void draw()
           if((double)dist((float)ships[i].getCornerPosX(j), (float)ships[i].getCornerPosY(j), (float)asts.get(k).getCenterX(), (float)asts.get(k).getCenterY()) < asts.get(k).getRadius()) {
             destAsteroids++;
             asts.set(k, new Asteroid(1 + (double)destAsteroids/50));
-            ships[i].lives(ships[i].lives() - 1);
-            ships[i].setCol(ships[i].lives() == 2 ? color(200, 100, 100) : color(200, 50, 50));
-            if(ships[i].lives() == 0) {
+            ships[i].lives(ships[i].getLives() - 1);
+            ships[i].setCol(ships[i].getLives() == 2 ? color(200, 100, 100) : color(200, 50, 50));
+            if(ships[i].getLives() == 0) {
               ships[i].kill();
               ships[i] = null;
             }
