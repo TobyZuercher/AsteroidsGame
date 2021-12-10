@@ -86,13 +86,13 @@ public void draw()
       if(ships[i] != null) {
         double d = (double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
         if(xPos[i] < 0)
-          d = -(double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
+          l = -(double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
         ships[i].setYspeed(0);
         ships[i].setXspeed(0);
         ships[i].turn(pDir);
         ships[i].addRot(pDir);
-        ships[i].setY(y + d * Math.sin(radians((float)ships[i].getRot())));
-        ships[i].setX(x + d * Math.cos(radians((float)ships[i].getRot())));
+        ships[i].setY(y + l * Math.sin(radians((float)ships[i].getRot())));
+        ships[i].setX(x + l * Math.cos(radians((float)ships[i].getRot())));
       }
     for(int i = 0; i < stars.length; i++)
       stars[i].change();
