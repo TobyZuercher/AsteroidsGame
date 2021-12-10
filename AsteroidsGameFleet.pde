@@ -17,7 +17,7 @@ public void setup()
     double x = width/2, y = height/2;
     ships[i].setY(y + yPos[i]);
     ships[i].setX(x + xPos[i]);
-    ships[i].rot(degrees((float)ships[i].getAngle(ships[0].getX() - ships[i].getX(), ships[0].getY() - ships[i].getY())));
+    ships[i].addRot(degrees((float)ships[i].getAngle(ships[0].getX() - ships[i].getX(), ships[0].getY() - ships[i].getY())));
   }
   ships[0].setLives(1);
   ships[0].setCol(color(200, 50, 50));
@@ -56,9 +56,9 @@ public void draw()
         if(xPos[i] < 0)
           d = -(double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
         ships[i].turn(-ships[i].getTurnPower());
-        ships[i].rot(-ships[i].getTurnPower());
-        ships[i].setY(y + d * Math.sin(radians((float)ships[i].rot())));
-        ships[i].setX(x + d * Math.cos(radians((float)ships[i].rot())));
+        ships[i].addRot(-ships[i].getTurnPower());
+        ships[i].setY(y + d * Math.sin(radians((float)ships[i].getRot())));
+        ships[i].setX(x + d * Math.cos(radians((float)ships[i].getRot())));
       }
   }
   if(d) {
@@ -69,9 +69,9 @@ public void draw()
         if(xPos[i] < 0)
           d = -(double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
         ships[i].turn(ships[i].getTurnPower());
-        ships[i].rot(ships[i].getTurnPower());
-        ships[i].setY(y + d * Math.sin(radians((float)ships[i].rot())));
-        ships[i].setX(x + d * Math.cos(radians((float)ships[i].rot())));
+        ships[i].addRot(ships[i].getTurnPower());
+        ships[i].setY(y + d * Math.sin(radians((float)ships[i].getRot())));
+        ships[i].setX(x + d * Math.cos(radians((float)ships[i].getRot())));
       }
   }
   if(space) {
@@ -84,9 +84,9 @@ public void draw()
         ships[i].setYspeed(0);
         ships[i].setXspeed(0);
         ships[i].turn(pDir);
-        ships[i].rot(pDir);
-        ships[i].setY(y + d * Math.sin(radians((float)ships[i].rot())));
-        ships[i].setX(x + d * Math.cos(radians((float)ships[i].rot())));
+        ships[i].addRot(pDir);
+        ships[i].setY(y + d * Math.sin(radians((float)ships[i].getRot())));
+        ships[i].setX(x + d * Math.cos(radians((float)ships[i].getRot())));
       }
     for(int i = 0; i < stars.length; i++)
       stars[i].change();
@@ -253,7 +253,7 @@ void reset() {
     double x = width/2, y = height/2;
     ships[i].setY(y + yPos[i]);
     ships[i].setX(x + xPos[i]);
-    ships[i].rot(degrees((float)ships[i].getAngle(ships[0].getX() - ships[i].getX(), ships[0].getY() - ships[i].getY())));
+    ships[i].addRot(degrees((float)ships[i].getAngle(ships[0].getX() - ships[i].getX(), ships[0].getY() - ships[i].getY())));
   }
   ships[0].setLives(1);
   ships[0].setCol(color(200, 50, 50));

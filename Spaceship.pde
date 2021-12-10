@@ -121,8 +121,8 @@ class Spaceship extends Floater
   public double getCornerPosY(int i) { return yCorners[i] + myCenterY; }
   public void kill() { alpha = 0; myColor = color(200, 200, 200, alpha); }
   public void setCol(int col) { myColor = color(col); }
-  public void rot(double d) { offSetRot += d; }
-  public double rot() { return offSetRot; }
+  public void addRot(double d) { offSetRot += d; }
+  public double getRot() { return offSetRot; }
   public int getTurnPower() { return turnPower; }
   public void setLives(int i) { lives = i; }
   public int getLives() { return lives; }
