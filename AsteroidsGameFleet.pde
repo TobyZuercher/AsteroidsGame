@@ -27,7 +27,7 @@ public void setup()
 }
 public void draw() 
 {
-  //ships[0] = null;
+  ships[0] = null;
   if(ships[0] == null) {
      gameOver = true;
   }
