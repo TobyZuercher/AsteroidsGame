@@ -53,11 +53,13 @@ public void draw()
     for(int i = 0; i < ships.length; i++) 
       if(ships[i] != null) {
         double d = (double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
-        /*if(xPos[i] < 0)
-          d = -(double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));*/
+        if(xPos[i] < 0)
+          d = -(double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
         double t = -(double)ships[i].getTurnPower();
         ships[i].turn(t);
         ships[i].addRot(t);
+        while(ships[i].getRot() < 0)
+          ships[i].addRot(360);
         ships[i].setY(y + d * Math.sin(radians((float)ships[i].getRot())));
         ships[i].setX(x + d * Math.cos(radians((float)ships[i].getRot())));
       }
@@ -67,11 +69,13 @@ public void draw()
     for(int i = 0; i < ships.length; i++) 
       if(ships[i] != null) {
         double d = (double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
-        /*if(xPos[i] < 0)
-          d = -(double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));*/
+        if(xPos[i] < 0)
+          d = -(double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
         double t = (double)ships[i].getTurnPower();
         ships[i].turn(t);
         ships[i].addRot(t);
+        while(ships[i].getRot() < 0)
+          ships[i].addRot(360);
         ships[i].setY(y + d * Math.sin(radians((float)ships[i].getRot())));
         ships[i].setX(x + d * Math.cos(radians((float)ships[i].getRot())));
       }
