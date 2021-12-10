@@ -56,7 +56,7 @@ public void draw()
         if(xPos[i] < 0)
           d = -(double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
         ships[i].turn(-ships[i].getTurnPower());
-        ships[i].addRot(-ships[i].getTurnPower());
+        //ships[i].addRot(-ships[i].getTurnPower());
         ships[i].setY(y + d * Math.sin(radians((float)ships[i].getRot())));
         ships[i].setX(x + d * Math.cos(radians((float)ships[i].getRot())));
       }
@@ -69,7 +69,7 @@ public void draw()
         if(xPos[i] < 0)
           d = -(double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
         ships[i].turn(ships[i].getTurnPower());
-        ships[i].addRot(ships[i].getTurnPower());
+        //ships[i].addRot(ships[i].getTurnPower());
         ships[i].setY(y + d * Math.sin(radians((float)ships[i].getRot())));
         ships[i].setX(x + d * Math.cos(radians((float)ships[i].getRot())));
       }
