@@ -84,7 +84,7 @@ public void draw()
     double x = (Math.random() * width), y = (Math.random() * height), pDir = (Math.random() * 360);
     for(int i = 0; i < ships.length; i++) 
       if(ships[i] != null) {
-        double d = (double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
+        double l = (double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
         if(xPos[i] < 0)
           l = -(double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
         ships[i].setYspeed(0);
