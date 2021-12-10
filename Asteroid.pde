@@ -17,13 +17,11 @@ class Asteroid extends Floater {
     xCorners[5] = -(int)(Math.random() * 3) - 4;
     yCorners[5] = -(int)(Math.random() * 3) - 9;
     myCenterX = (Math.random() * (width + 100) - 50);
-    if(myCenterX > -10 && myCenterX < width + 10) {
-      if(Math.random() < 0.5)
-        myCenterY = (Math.random() * 40 - 50);
-      else
-        myCenterY = (Math.random() * 40 + width + 10);
+    myCenterY = (Math.random() * (height + 100) - 50);
+    while(myCenterX > -10 && myCenterX < width + 10 && myCenterY > -10 && myCenterY < height + 10) {
+      myCenterX = (Math.random() * (width + 100) - 50);
+      myCenterY = (Math.random() * (height + 100) - 50);
     }
-    else myCenterY = (Math.random() * (height + 100) - 50);
     myColor = color(100);
     translate(width/2, height/2);
     myPointDirection = Math.atan2(myCenterX - width/2, myCenterY - height/2) + (Math.random() * 20 - 10);

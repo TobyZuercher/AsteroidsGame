@@ -253,28 +253,6 @@ boolean move(char c, boolean b)
   }
 }
 
-void reset() {
-  destAsteroids = 0;
-  gameOver = false;
-  canShoot = 0;
-  loop();
-  background(0);
-  for(int i = 0; i < stars.length; i++)  
-    stars[i] = new Star();
-  for(int i = 0; i < ships.length; i++) {
-    ships[i] = new Spaceship();
-    double x = width/2, y = height/2;
-    ships[i].setY(y + yPos[i]);
-    ships[i].setX(x + xPos[i]);
-    ships[i].addRot(degrees((float)ships[i].getAngle(ships[0].getX() - ships[i].getX(), ships[0].getY() - ships[i].getY())));
-  }
-  ships[0].setLives(1);
-  ships[0].setCol(color(200, 50, 50));
-  for(int i = 0; i < 20; i++) {
-    asts.add(new Asteroid(1 + (double)destAsteroids/50));
-  }
-}
-
 void setEndScreen() {
   while(asts.size() > 0)
     asts.remove(0);
