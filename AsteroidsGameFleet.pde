@@ -53,8 +53,8 @@ public void draw()
     for(int i = 0; i < ships.length; i++) 
       if(ships[i] != null) {
         double d = (double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
-        if(xPos[i] < 0)
-          d = -(double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
+        /*if(xPos[i] < 0)
+          d = -(double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));*/
         double t = -(double)ships[i].getTurnPower();
         ships[i].turn(t);
         ships[i].addRot(t);
@@ -67,8 +67,8 @@ public void draw()
     for(int i = 0; i < ships.length; i++) 
       if(ships[i] != null) {
         double d = (double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
-        if(xPos[i] < 0)
-          d = -(double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));
+        /*if(xPos[i] < 0)
+          d = -(double)dist((float)x, (float)y, (float)(xPos[i] + x), (float)(yPos[i] + y));*/
         double t = (double)ships[i].getTurnPower();
         ships[i].turn(t);
         ships[i].addRot(t);
