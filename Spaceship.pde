@@ -124,6 +124,6 @@ class Spaceship extends Floater
   public void rot(double d) { offSetRot += d; }
   public double rot() { return offSetRot; }
   public int getTurnPower() { return turnPower; }
-  public void lives(int i) { lives += i; }
-  public int lives() { return lives; }
+  public void setLives(int i) { lives += i; }
+  public int getLives() { return lives; }
 }

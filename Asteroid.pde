@@ -1,6 +1,6 @@
 class Asteroid extends Floater {
   private double turnSpeed;
-  Asteroid() {
+  Asteroid(double s) {
     corners = 6;
     xCorners = new int[corners];
     yCorners = new int[corners];
@@ -28,8 +28,8 @@ class Asteroid extends Floater {
     translate(width/2, height/2);
     myPointDirection = Math.atan2(myCenterX - width/2, myCenterY - height/2) + (Math.random() * 20 - 10);
     translate(-width/2, -height/2);
-    myXspeed = Math.cos(myPointDirection);
-    myYspeed = Math.sin(myPointDirection);
+    myXspeed = Math.cos(myPointDirection) * s;
+    myYspeed = Math.sin(myPointDirection) * s;
     turnSpeed = (Math.random() * 7 + 3);
   }
   void move() {
