@@ -1,14 +1,18 @@
 Spaceship[] ships = new Spaceship[12];
-double[] xPos = {0, -35, -35, -60, -60, -20, -20, 20, 20, 60, 60, 100}, yPos = {0, -18, 18, -48, 48, -36, 36, -24, 24, -12, 12, 0};
 Star[] stars = new Star[150];
 ArrayList<Asteroid> asts = new ArrayList<Asteroid>();
+ArrayList<Lazer> bullets = new ArrayList<Lazer>();
+double[] xPos = {0, -35, -35, -60, -60, -20, -20, 20, 20, 60, 60, 100}, yPos = {0, -18, 18, -48, 48, -36, 36, -24, 24, -12, 12, 0};
 int destAsteroids = 0, canShoot = 0;
 boolean gameOver = false;
-ArrayList<Lazer> bullets = new ArrayList<Lazer>();
+
 public void setup() 
 {
-  size(600, 600);
-  //fullScreen();
+  loop();
+  destAsteroids = 0;
+  gameOver = false;
+  canShoot = 0;
+  size(700, 700);
   background(0);
   for(int i = 0; i < stars.length; i++)
     stars[i] = new Star();
@@ -25,9 +29,9 @@ public void setup()
     asts.add(new Asteroid(1 + (double)destAsteroids/50));
   }
 }
+
 public void draw() 
 {
-  //ships[0] = null;
   if(ships[0] == null) {
      gameOver = true;
   }
@@ -48,6 +52,7 @@ public void draw()
       if(ships[i] != null)
         ships[i].accelerate(0.1);
     }
+    
   if(a) {
     double x = ships[0].getX(), y = ships[0].getY();
     for(int i = 0; i < ships.length; i++) 
@@ -64,6 +69,7 @@ public void draw()
         ships[i].setX(x + p * Math.cos(radians((float)ships[i].getRot())));
       }
   }
+  
   if(d) {
     double x = ships[0].getX(), y = ships[0].getY();
     for(int i = 0; i < ships.length; i++) 
@@ -80,6 +86,7 @@ public void draw()
         ships[i].setX(x + q * Math.cos(radians((float)ships[i].getRot())));
       }
   }
+  
   if(space) {
     double x = (Math.random() * width), y = (Math.random() * height), pDir = (Math.random() * 360);
     for(int i = 0; i < ships.length; i++) 
@@ -297,8 +304,9 @@ void setEndScreen() {
 
 void mousePressed() {
   if(gameOver) {
-    if(mouseX > (0.9 * width/3) && mouseX < (0.9 * width/3) + (width - (2 * 0.9 * width/3)) && mouseY > height/2 && mouseY < 4 * height/6)
-        reset();
+    if(mouseX > (0.9 * width/3) && mouseX < (0.9 * width/3) + (width - (2 * 0.9 * width/3)) && mouseY > height/2 && mouseY < 4 * height/6) {
+      setup();
+    }
   }
   else move('r', true);
 }
